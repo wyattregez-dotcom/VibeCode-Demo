@@ -3,1026 +3,1400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALISTHENIX // Dynamic Bodyweight Workout Planner</title>
+    <title>Kallos — Sthenos | Calisthenics Workout Planner</title>
+    <!-- Google Font: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-primary: #090d16;
-            --bg-secondary: #111827;
-            --bg-card: #1f293d;
-            --bg-card-hover: #28354d;
-            --accent-cyan: #06b6d4;
-            --accent-cyan-glow: rgba(6, 182, 212, 0.25);
-            --accent-lime: #84cc16;
-            --accent-lime-glow: rgba(132, 204, 22, 0.2);
-            --accent-orange: #f97316;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: #334155;
-            --border-highlight: #475569;
+            --bg-main: #0a0c10;
+            --bg-card: #131720;
+            --bg-card-hover: #1a202c;
+            --bg-input: #1a1f2c;
+            --border-color: rgba(212, 175, 55, 0.18);
+            --border-bright: rgba(212, 175, 55, 0.5);
+            
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-glow: rgba(212, 175, 55, 0.25);
+            
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-red: #ef4444;
+
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
-            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            --transition-fast: 0.18s ease;
-            --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 25px rgba(212, 175, 55, 0.15);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: var(--font-main);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            background-color: var(--bg-main);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
+        header {
+            background: linear-gradient(180deg, rgba(19, 23, 32, 0.95) 0%, rgba(10, 12, 16, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* Main Application Layout */
-        .app-container {
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
-            flex: 1;
-            min-height: 100vh;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        /* Sidebar Styling */
-        .sidebar {
-            width: 260px;
-            background-color: var(--bg-secondary);
-            border-right: 1px solid var(--border-color);
+        .brand {
             display: flex;
             flex-direction: column;
-            padding: 1.5rem 1rem;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 40;
-            transition: transform var(--transition-normal);
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .brand-logo svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--accent-cyan);
-            filter: drop-shadow(0 0 10px var(--accent-cyan-glow));
         }
 
         .brand-title {
-            font-size: 1.25rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            letter-spacing: 0.05em;
-            background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan));
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--gold-primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        .nav-menu {
+            text-transform: uppercase;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 0.5rem;
-            list-style: none;
         }
 
-        .nav-item button {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-            padding: 0.85rem 1rem;
-            border-radius: var(--radius-md);
-            border: 1px solid transparent;
-            background: transparent;
-            color: var(--text-secondary);
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-align: left;
-        }
-
-        .nav-item button:hover {
-            background-color: rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-        }
-
-        .nav-item.active button {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05));
-            border-color: rgba(6, 182, 212, 0.4);
-            color: var(--accent-cyan);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-item button svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .user-quick-profile {
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-        }
-
-        .user-avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-lime));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: var(--bg-primary);
-            font-size: 1.1rem;
-            box-shadow: 0 0 12px var(--accent-cyan-glow);
-        }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .user-level {
-            font-size: 0.75rem;
-            color: var(--accent-lime);
-            font-weight: 600;
-        }
-
-        .main-content {
-            margin-left: 260px;
-            flex: 1;
-            padding: 2rem;
-            max-width: 1400px;
-            width: calc(100% - 260px);
-        }
-
-        .view-panel {
-            display: none;
-            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .view-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .page-title {
-            font-size: 1.85rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .page-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Grid Layout System */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        /* Generic Card Styling */
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            transition: border-color var(--transition-fast), transform var(--transition-fast);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            border-color: var(--border-highlight);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Stats Cards */
-        .stat-card {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
-
-        .stat-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg-secondary);
-            color: var(--accent-cyan);
-            border: 1px solid var(--border-color);
-        }
-
-        .stat-icon svg {
-            width: 26px;
-            height: 26px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .stat-value {
-            font-size: 1.75rem;
-            font-weight: 800;
-            line-height: 1.1;
-        }
-
-        .stat-label {
+        .brand-subtitle {
             font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 0.2rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
-        /* Buttons & Inputs */
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .btn {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            border-radius: var(--radius-md);
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all var(--transition-fast);
             text-decoration: none;
         }
 
+        .btn:hover {
+            border-color: var(--gold-primary);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
         .btn-primary {
-            background: var(--accent-cyan);
-            color: var(--bg-primary);
-            box-shadow: 0 4px 14px var(--accent-cyan-glow);
+            background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+            color: #000;
+            border: none;
+            font-weight: 700;
         }
 
         .btn-primary:hover {
-            background: #22d3ee;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px var(--accent-cyan-glow);
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
+            color: #000;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
-        .btn-secondary {
-            background-color: var(--bg-secondary);
-            border-color: var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--border-highlight);
-            background-color: var(--bg-card-hover);
-        }
-
-        .btn-lime {
-            background-color: var(--accent-lime);
-            color: var(--bg-primary);
-            box-shadow: 0 4px 14px var(--accent-lime-glow);
-        }
-
-        .btn-lime:hover {
-            background-color: #a3e635;
-            transform: translateY(-1px);
-        }
-
-        .btn-sm {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.8rem;
-            border-radius: var(--radius-sm);
-        }
-
-        .input-field {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 0.75rem 1rem;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.95rem;
+        .dashboard-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
             width: 100%;
-            outline: none;
-            transition: border-color var(--transition-fast);
-        }
-
-        .input-field:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 3px var(--accent-cyan-glow);
-        }
-
-        /* Skill Progression Component */
-        .skill-tree-container {
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
-            margin-top: 1rem;
+            gap: 2rem;
+            flex-grow: 1;
         }
 
-        .skill-branch-title {
-            font-size: 1.2rem;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-3px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold-primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+        }
+
+        .stat-unit {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .stat-desc {
+            font-size: 0.75rem;
+            color: var(--gold-primary);
+            margin-top: 0.4rem;
+            font-weight: 500;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .calendar-title {
+            font-size: 1.4rem;
             font-weight: 700;
-            color: var(--accent-cyan);
-            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .skill-nodes-row {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            overflow-x: auto;
-            padding: 1rem 0.5rem;
-        }
-
-        .skill-node {
-            background-color: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            min-width: 220px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-        }
-
-        .skill-node::after {
-            content: '';
-            position: absolute;
-            right: -1.6rem;
-            top: 50%;
-            width: 1.2rem;
-            height: 2px;
-            background-color: var(--border-color);
-        }
-
-        .skill-nodes-row .skill-node:last-child::after {
-            display: none;
-        }
-
-        .skill-node.unlocked {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px var(--accent-cyan-glow);
-        }
-
-        .skill-node.mastered {
-            border-color: var(--accent-lime);
-            background: linear-gradient(180deg, var(--bg-card) 0%, rgba(132, 204, 22, 0.05) 100%);
-            box-shadow: 0 0 15px var(--accent-lime-glow);
-        }
-
-        .skill-badge {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.85rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .skill-node.mastered .skill-badge {
-            background-color: var(--accent-lime);
-            color: var(--bg-primary);
-            border-color: var(--accent-lime);
-        }
-
-        .skill-node.unlocked .skill-badge {
-            background-color: var(--accent-cyan);
-            color: var(--bg-primary);
-            border-color: var(--accent-cyan);
-        }
-
-        .skill-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .skill-req {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        /* Exercise Library Cards */
-        .exercise-grid {
+        .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.25rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
         }
 
-        .exercise-card {
-            background-color: var(--bg-card);
+        @media (max-width: 1100px) {
+            .calendar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .calendar-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .day-column {
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 1.25rem;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transition: all var(--transition-fast);
+            min-height: 480px;
+            box-shadow: var(--shadow-card);
+            transition: border-color 0.2s ease;
         }
 
-        .exercise-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-highlight);
+        .day-column.today {
+            border: 2px solid var(--gold-primary);
+            box-shadow: var(--shadow-glow);
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, var(--bg-card) 100%);
         }
 
-        .exercise-header {
+        .day-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-        }
-
-        .exercise-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .tag-push { background-color: rgba(249, 115, 22, 0.15); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.3); }
-        .tag-pull { background-color: rgba(6, 182, 212, 0.15); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3); }
-        .tag-legs { background-color: rgba(132, 204, 22, 0.15); color: #84cc16; border: 1px solid rgba(132, 204, 22, 0.3); }
-        .tag-core { background-color: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
-        .tag-skill { background-color: rgba(236, 72, 153, 0.15); color: #ec4899; border: 1px solid rgba(236, 72, 153, 0.3); }
-
-        .exercise-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             margin-bottom: 1rem;
         }
 
-        .exercise-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            padding-top: 0.75rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .day-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Routine Builder Items */
-        .builder-list {
+        .day-column.today .day-name {
+            color: var(--gold-primary);
+        }
+
+        .today-badge {
+            font-size: 0.65rem;
+            background: var(--gold-primary);
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .exercise-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            min-height: 120px;
+            gap: 0.75rem;
+            flex-grow: 1;
         }
 
-        .builder-item {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 1rem 1.25rem;
+        .workout-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+            padding: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .workout-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .workout-card.completed {
+            border-left: 3px solid var(--accent-green);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .workout-card.completed .workout-name {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .workout-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .workout-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .workout-meta {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
         }
 
-        .builder-item-info {
-            flex: 1;
-        }
-
-        .builder-item-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .builder-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .num-input-group {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            background-color: var(--bg-card);
-            padding: 0.3rem 0.6rem;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .num-input-group label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
+        .workout-tag {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
             font-weight: 600;
         }
 
-        .num-input-group input {
-            width: 45px;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-weight: 700;
-            text-align: center;
-            outline: none;
+        .workout-actions {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.25rem;
         }
 
-        /* Active Workout Overlay / Screen */
-        .workout-player-modal {
+        .btn-xs {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .btn-check {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-check:hover {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            margin-left: auto;
+        }
+
+        .btn-delete:hover {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .add-to-day-btn {
+            width: 100%;
+            border: 1px dashed var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            padding: 0.6rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .add-to-day-btn:hover {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .library-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .search-input, .select-input {
+            background: var(--bg-input);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        .search-input:focus, .select-input:focus {
+            border-color: var(--gold-primary);
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .library-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .library-card:hover {
+            border-color: var(--gold-primary);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px);
+        }
+
+        .library-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-beginner {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-intermediate {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .badge-advanced {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .library-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 0.4rem;
+        }
+
+        .library-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .library-details {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 0.75rem;
+        }
+
+        .day-select-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .tracker-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .tracker-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(9, 13, 22, 0.95);
-            backdrop-filter: blur(12px);
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
             display: none;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 520px;
             padding: 2rem;
-            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            position: relative;
+            animation: modalSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .workout-player-modal.active {
-            display: flex;
+        @keyframes modalSlide {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        .player-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--gold-light);
         }
 
-        .player-content {
-            max-width: 700px;
-            margin: 0 auto;
-            width: 100%;
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: var(--text-main);
+        }
+
+        .form-group {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
         }
 
-        .timer-circle-container {
-            position: relative;
-            width: 240px;
-            height: 240px;
-            margin: 2rem 0;
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
         }
 
-        .timer-circle-svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
+        .form-input, .form-select, .form-textarea {
+            background: var(--bg-input);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            outline: none;
         }
 
-        .timer-circle-bg {
-            fill: none;
-            stroke: var(--bg-card);
-            stroke-width: 10;
-        }
-
-        .timer-circle-progress {
-            fill: none;
-            stroke: var(--accent-cyan);
-            stroke-width: 10;
-            stroke-linecap: round;
-            stroke-dasharray: 690;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 1s linear, stroke var(--transition-fast);
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--gold-primary);
         }
 
         .timer-display {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .timer-seconds {
             font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .timer-label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 0.25rem;
-        }
-
-        .current-exercise-banner {
-            background-color: var(--bg-card);
+            text-align: center;
+            font-mono: monospace;
+            color: var(--gold-primary);
+            letter-spacing: 2px;
+            margin: 1rem 0;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 1rem;
+            border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem 2rem;
-            width: 100%;
-            margin-bottom: 1.5rem;
         }
 
-        .current-ex-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
         }
 
-        .current-ex-target {
-            font-size: 1.1rem;
-            color: var(--accent-cyan);
-            font-weight: 700;
-            margin-top: 0.4rem;
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            background: rgba(10, 12, 16, 0.9);
         }
 
-        /* Responsiveness */
-        @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 1.25rem;
-            }
-            .grid-3, .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .mobile-nav-toggle {
-                display: block !important;
-            }
-        }
-
-        .mobile-nav-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
+        .latin-quote {
+            font-style: italic;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar" id="sidebar">
-            <div class="brand-logo">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 6.29 3.43 4.86 2 3.43 3.43 2 4.86 3.43 6.29 2 7.71 3.43 9.14 2 10.57 3.43 12 7 20.57 8.43 17 12 20.57 10.57 22 9.14 20.57 7.71 22 6.29 20.57 4.86 22 3.43 20.57 2 19.14 3.43 17.71 2 16.29 3.43 14.86z"/>
-                </svg>
-                <span class="brand-title">CALISTHENIX</span>
-            </div>
 
-            <ul class="nav-menu">
-                <li class="nav-item active" data-tab="dashboard">
-                    <button>
-                        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                        Dashboard
-                    </button>
-                </li>
-                <li class="nav-item" data-tab="planner">
-                    <button>
-                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        Routine Planner
-                    </button>
-                </li>
-                <li class="nav-item" data-tab="skills">
-                    <button>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        Skill Trees
-                    </button>
-                </li>
-                <li class="nav-item" data-tab="library">
-                    <button>
-                        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                        Exercise Library
-                    </button>
-                </li>
-            </ul>
-
-            <div class="user-quick-profile">
-                <div class="user-avatar">CX</div>
-                <div class="user-info">
-                    <span class="user-name">Athlete #01</span>
-                    <span class="user-level">Advanced Rank</span>
+    <header>
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-title">
+                    <span>Kallos — Sthenos</span>
+                </div>
+                <div class="brand-subtitle">
+                    Beautiful Strength — Calisthenics Daily Planner & Tracker
                 </div>
             </div>
-        </aside>
-
-        <!-- Main Content View Area -->
-        <main class="main-content">
-            <!-- Mobile Navigation Bar Header -->
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;" class="mobile-nav-toggle">
-                <button id="mobileMenuBtn" class="btn btn-secondary btn-sm">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                    Menu
+            <div class="header-actions">
+                <button class="btn" onclick="openTimerModal()">
+                    ⏱️ Rest Timer
                 </button>
-                <span class="brand-title" style="font-size: 1.1rem;">CALISTHENIX</span>
+                <button class="btn btn-primary" onclick="openCustomWorkoutModal()">
+                    + Custom Exercise
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-layout">
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Workouts Completed — Lifetime</div>
+                <div class="stat-value" id="stat-completed-count">0 <span class="stat-unit">sessions</span></div>
+                <div class="stat-desc">Consistency — Pathway to mastery</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Repetitions Logged</div>
+                <div class="stat-value" id="stat-reps-count">0 <span class="stat-unit">reps</span></div>
+                <div class="stat-desc">Physical Volume — Pure bodyweight</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active Week Routine</div>
+                <div class="stat-value" id="stat-weekly-scheduled">0 <span class="stat-unit">exercises</span></div>
+                <div class="stat-desc">Scheduled — Kallos & Sthenos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Weekly Completion Rate</div>
+                <div class="stat-value" id="stat-completion-rate">0%</div>
+                <div class="stat-desc">Target — 100% Execution</div>
+            </div>
+        </section>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('planner-tab', this)">
+                📅 Weekly Planner
+            </button>
+            <button class="tab-btn" onclick="switchTab('library-tab', this)">
+                📚 Calisthenics Library
+            </button>
+            <button class="tab-btn" onclick="switchTab('tracker-tab', this)">
+                📊 Progress & Analytics
+            </button>
+        </nav>
+
+        <section id="planner-tab" class="tab-content active">
+            <div class="calendar-header">
+                <div class="calendar-title">
+                    <span>Weekly Microcycle — Daily Schedule</span>
+                </div>
+                <button class="btn btn-xs" onclick="clearWeeklyPlan()" style="color: var(--text-dim);">
+                    🧹 Reset Week
+                </button>
             </div>
 
-            <!-- TAB 1: DASHBOARD -->
-            <section id="tab-dashboard" class="view-panel active">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Command Center</h1>
-                        <p class="page-subtitle">Track your weekly performance, streaks, and skill progressions.</p>
-                    </div>
-                    <button id="quickStartBtn" class="btn btn-primary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        Start Today's Workout
-                    </button>
+            <div class="calendar-grid" id="calendar-grid">
+                <!-- Days auto-generated by JavaScript -->
+            </div>
+        </section>
+
+        <section id="library-tab" class="tab-content">
+            <div class="library-section">
+                <div class="filter-bar">
+                    <input type="text" id="library-search" class="search-input" placeholder="Search exercises — e.g. Muscle-up, Push-up, L-Sit..." oninput="renderLibrary()">
+                    
+                    <select id="library-filter-level" class="select-input" onchange="renderLibrary()">
+                        <option value="all">All Progression Levels — Mastery</option>
+                        <option value="Beginner">Beginner — Foundation Level</option>
+                        <option value="Intermediate">Intermediate — Skilled Strength</option>
+                        <option value="Advanced">Advanced — Elite Sovereign</option>
+                    </select>
+
+                    <select id="library-filter-category" class="select-input" onchange="renderLibrary()">
+                        <option value="all">All Muscle Groups — Full Body</option>
+                        <option value="Push">Push — Chest, Shoulders, Triceps</option>
+                        <option value="Pull">Pull — Back, Biceps, Forearms</option>
+                        <option value="Legs">Legs — Quads, Hamstrings, Calves</option>
+                        <option value="Core">Core — Abs, Obliques, Lower Back</option>
+                        <option value="Skill">Skill — Balance, Levers, Holds</option>
+                    </select>
                 </div>
 
-                <!-- Stats Overview -->
-                <div class="grid-3" style="margin-bottom: 2rem;">
-                    <div class="card stat-card">
-                        <div class="stat-icon" style="color: var(--accent-cyan);">
-                            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                        </div>
-                        <div>
-                            <div class="stat-value" id="dashStreakVal">5 Days</div>
-                            <div class="stat-label">Current Active Streak</div>
-                        </div>
-                    </div>
-                    <div class="card stat-card">
-                        <div class="stat-icon" style="color: var(--accent-lime);">
-                            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                        </div>
-                        <div>
-                            <div class="stat-value" id="dashCompletedVal">18</div>
-                            <div class="stat-label">Workouts Logged</div>
-                        </div>
-                    </div>
-                    <div class="card stat-card">
-                        <div class="stat-icon" style="color: var(--accent-orange);">
-                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        </div>
-                        <div>
-                            <div class="stat-value" id="dashVolumeVal">1,240</div>
-                            <div class="stat-label">Total Reps Completed</div>
-                        </div>
+                <div class="catalog-grid" id="catalog-grid">
+                    <!-- Library items generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="tracker-tab" class="tab-content">
+            <div class="tracker-section">
+                <div class="tracker-panel">
+                    <h3>Workout Completion Log — History</h3>
+                    <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.25rem;">
+                        Track your completed workouts — Every repetition logged counts towards bodyweight mastery.
+                    </p>
+                    <div class="history-list" id="history-list">
+                        <!-- History auto-rendered -->
                     </div>
                 </div>
+            </div>
+        </section>
+    </main>
 
-                <!-- Active Routines & Today's Schedule -->
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-title">
-                            Today's Schedule
-                            <span class="tag tag-pull">Pull Focus</span>
-                        </div>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.25rem;" id="dashTodayRoutineDesc">
-                            Focusing on Upper Body Pulling Power, Muscle-up Transits, and L-Sit Core Hold.
-                        </p>
-                        <div id="dashTodayExercisesList" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
-                            <!-- Populated dynamically via JS -->
-                        </div>
-                        <button class="btn btn-primary style-full" style="width:100%" id="dashLaunchBtn">Launch Session</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-title">Mastered Skills Progress</div>
-                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
-                            <div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
-                                    <span>Handstand Progression</span>
-                                    <span style="color: var(--accent-cyan);">Freestanding (45s)</span>
-                                </div>
-                                <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden;">
-                                    <div style="background: var(--accent-cyan); width: 80%; height: 100%;"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
-                                    <span>Muscle-Up Progression</span>
-                                    <span style="color: var(--accent-lime);">Chest-to-Bar Pullup</span>
-                                </div>
-                                <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden;">
-                                    <div style="background: var(--accent-lime); width: 65%; height: 100%;"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
-                                    <span>Front Lever Progression</span>
-                                    <span style="color: var(--accent-orange);">Advanced Tuck</span>
-                                </div>
-                                <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden;">
-                                    <div style="background: var(--accent-orange); width: 45%; height: 100%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 2: ROUTINE PLANNER -->
-            <section id="tab-planner" class="view-panel">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Routine Architect</h1>
-                        <p class="page-subtitle">Design custom bodyweight protocols, edit sets, reps, and target rest intervals.</p>
-                    </div>
-                    <div style="display: flex; gap: 0.75rem;">
-                        <button id="loadPresetBtn" class="btn btn-secondary">Load Preset Template</button>
-                        <button id="saveRoutineBtn" class="btn btn-lime">Save Routine</button>
-                    </div>
-                </div>
-
-                <div class="grid-3">
-                    <!-- Builder Canvas (2 cols) -->
-                    <div style="grid-column: span 2;">
-                        <div class="card">
-                            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                                <input type="text" id="routineTitleInput" class="input-field" value="Upper Body & Core Hypertrophy" placeholder="Routine Title...">
-                                <select id="routineCategorySelect" class="input-field" style="width: 180px;">
-                                    <option value="Push">Push Focus</option>
-                                    <option value="Pull">Pull Focus</option>
-                                    <option value="Legs">Legs Focus</option>
-                                    <option value="Full Body">Full Body</option>
-                                    <option value="Skill">Skill & Core</option>
-                                </select>
-                            </div>
-
-                            <h3 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Selected Exercises Sequence</h3>
-
-                            <div class="builder-list" id="builderExerciseList">
-                                <!-- Populated dynamically by JS -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Add Exercises Selector (1 col) -->
-                    <div>
-                        <div class="card">
-                            <div class="card-title">Add To Routine</div>
-                            <input type="text" id="builderSearchInput" class="input-field" placeholder="Search movement..." style="margin-bottom: 1rem;">
-                            
-                            <div id="quickAddList" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 480px; overflow-y: auto;">
-                                <!-- Quick exercise items populated via JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 3: SKILL TREES -->
-            <section id="tab-skills" class="view-panel">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Skill Progression Matrix</h1>
-                        <p class="page-subtitle">Unlock advanced calisthenics elements through systematic progression steps.</p>
-                    </div>
-                </div>
-
-                <div class="skill-tree-container" id="skillTreeContainer">
-                    <!-- Dynamic Skill Trees populated via JS -->
-                </div>
-            </section>
-
-            <!-- TAB 4: EXERCISE LIBRARY -->
-            <section id="tab-library" class="view-panel">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Exercise Compendium</h1>
-                        <p class="page-subtitle">Master execution details, muscle targets, and difficulty ratings.</p>
-                    </div>
-                </div>
-
-                <!-- Filters -->
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                    <input type="text" id="librarySearchInput" class="input-field" placeholder="Search exercises by name or muscle group..." style="max-width: 360px;">
-                    <div style="display: flex; gap: 0.5rem;" id="libraryCategoryFilters">
-                        <button class="btn btn-secondary btn-sm active-filter" data-cat="all">All</button>
-                        <button class="btn btn-secondary btn-sm" data-cat="Push">Push</button>
-                        <button class="btn btn-secondary btn-sm" data-cat="Pull">Pull</button>
-                        <button class="btn btn-secondary btn-sm" data-cat="Legs">Legs</button>
-                        <button class="btn btn-secondary btn-sm" data-cat="Core">Core</button>
-                        <button class="btn btn-secondary btn-sm" data-cat="Skill">Skills</button>
-                    </div>
-                </div>
-
-                <div class="exercise-grid" id="libraryGrid">
-                    <!-- Populated dynamically via JS -->
-                </div>
-            </section>
-        </main>
+    <div class="modal-overlay" id="timer-modal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('timer-modal')">&times;</button>
+            <div class="modal-title">⏱️ Rest Interval Timer</div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                Optimal rest — Key for central nervous system recovery during intense calisthenics routines.
+            </p>
+            <div class="timer-display" id="timer-display">01:00</div>
+            <div class="timer-controls">
+                <button class="btn" onclick="setTimer(30)">30s</button>
+                <button class="btn" onclick="setTimer(60)">60s</button>
+                <button class="btn" onclick="setTimer(90)">90s</button>
+                <button class="btn" onclick="setTimer(120)">120s</button>
+                <button class="btn btn-primary" id="timer-toggle-btn" onclick="toggleTimer()">Start</button>
+            </div>
+        </div>
     </div>
 
-    <!-- ACTIVE WORKOUT PLAYER MODAL -->
-    <div class="workout-player-modal" id="workoutPlayerModal">
-        <div class="player-header">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <span class="tag tag-pull" id="playerCategoryTag">PULL ROUTINE</span>
-                <h2 id="playerRoutineTitle" style="font-weight: 800; font-size: 1.25rem;">Upper Body & Core</h2>
-            </div>
-            <button class="btn btn-secondary btn-sm" id="exitPlayerBtn">Exit Session</button>
+    <div class="modal-overlay" id="custom-workout-modal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('custom-workout-modal')">&times;</button>
+            <div class="modal-title">+ Add Custom Calisthenics Exercise</div>
+            <form id="custom-workout-form" onsubmit="handleCustomWorkoutSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Exercise Name — Technique</label>
+                    <input type="text" id="custom-name" class="form-input" placeholder="e.g. Archer Push-Ups — Controlled" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Progression Level</label>
+                    <select id="custom-level" class="form-select">
+                        <option value="Beginner">Beginner — Foundation</option>
+                        <option value="Intermediate" selected>Intermediate — Skilled</option>
+                        <option value="Advanced">Advanced — Elite Mastery</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Target Muscle Focus</label>
+                    <select id="custom-category" class="form-select">
+                        <option value="Push">Push — Chest & Triceps</option>
+                        <option value="Pull">Pull — Lats & Biceps</option>
+                        <option value="Legs">Legs — Bodyweight Lower</option>
+                        <option value="Core">Core — Midsection</option>
+                        <option value="Skill">Skill — Static Hold</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Default Target Sets & Reps</label>
+                    <input type="text" id="custom-target" class="form-input" placeholder="e.g. 4 Sets x 10 Reps" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description / Cues</label>
+                    <textarea id="custom-desc" class="form-textarea" rows="3" placeholder="Form cues — Keep body straight, engage glutes, clean lockouts..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                    Save to Exercise Library
+                </button>
+            </form>
         </div>
+    </div>
 
-        <div class="player-content">
-            <div class="current-exercise-banner">
-                <span style="font-size:
+    <div class="modal-overlay" id="log-reps-modal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('log-reps-modal')">&times;</button>
+            <div class="modal-title">Log Repetitions Completed</div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;" id="log-exercise-name">
+                Exercise — Name
+            </p>
+            <form id="log-reps-form" onsubmit="handleLogRepsSubmit(event)" style="margin-top: 1rem;">
+                <input type="hidden" id="log-day-index">
+                <input type="hidden" id="log-workout-id">
+                <div class="form-group">
+                    <label class="form-label">Reps Completed in This Session</label>
+                    <input type="number" id="log-reps-input" class="form-input" min="1" placeholder="e.g. 45" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                    Confirm & Complete Workout
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="latin-quote">"Kalos kai Sthenos — Beauty and Strength intertwined"</div>
+        <p>Kallos — Sthenos Calisthenics Planner &bull; Dedicated to bodyweight mastery and functional sovereignty.</p>
+    </footer>
+
+    <script>
+        const DEFAULT_EXERCISES = [
+            {
+                id: 'ex-1',
+                name: 'Standard Push-Ups — Clean Form',
+                level: 'Beginner',
+                category: 'Push',
+                target: '3 Sets x 15 Reps',
+                desc: 'Classic bodyweight push — Full chest extension, hollow body hold, chest to floor.'
+            },
+            {
+                id: 'ex-2',
+                name: 'Australian Bodyweight Rows',
+                level: 'Beginner',
+                category: 'Pull',
+                target: '3 Sets x 12 Reps',
+                desc: 'Horizontal pull using low bar — Squeeze scapula at top, controlled negative.'
+            },
+            {
+                id: 'ex-3',
+                name: 'Air Squats — Full Depth',
+                level: 'Beginner',
+                category: 'Legs',
+                target: '4 Sets x 20 Reps',
+                desc: 'Bodyweight leg extension — Knees tracking toes, hip crease below knees.'
+            },
+            {
+                id: 'ex-4',
+                name: 'Hollow Body Hold — Core Focus',
+                level: 'Beginner',
+                category: 'Core',
+                target: '3 Sets x 30 Secs',
+                desc: 'Lower back pressed flat into floor — Legs extended, arms overhead.'
+            },
+            {
+                id: 'ex-5',
+                name: 'Parallel Bar Dips',
+                level: 'Intermediate',
+                category: 'Push',
+                target: '4 Sets x 10 Reps',
+                desc: 'Upper body power — 90 degree elbow bend, explosive push to lock out.'
+            },
+            {
+                id: 'ex-6',
+                name: 'Strict Dead-Hang Pull-Ups',
+                level: 'Intermediate',
+                category: 'Pull',
+                target: '4 Sets x 8 Reps',
+                desc: 'Lats & biceps — Full dead hang at bottom, chin clearly over bar.'
+            },
+            {
+                id: 'ex-7',
+                name: 'Pistol Squats — Single Leg',
+                level: 'Intermediate',
+                category: 'Legs',
+                target: '3 Sets x 6 Reps / Leg',
+                desc: 'Unilateral leg strength & balance — Deep single leg squat with opposite leg horizontal.'
+            },
+            {
+                id: 'ex-8',
+                name: 'L-Sit Hold — Dip Bars or Floor',
+                level: 'Intermediate',
+                category: 'Skill',
+                target: '4 Sets x 15 Secs',
+                desc: 'Isometric core & hip flexor compression — Quad lock, shoulders depressed.'
+            },
+            {
+                id: 'ex-9',
+                name: 'Bar Muscle-Ups — Explosive',
+                level: 'Advanced',
+                category: 'Pull',
+                target: '3 Sets x 5 Reps',
+                desc: 'Combined pull-up and dip transition — Chest over bar in one fluid movement.'
+            },
+            {
+                id: 'ex-10',
+                name: 'Wall-Assisted Handstand Push-Ups',
+                level: 'Advanced',
+                category: 'Push',
+                target: '3 Sets x 6 Reps',
+                desc: 'Vertical shoulder press — Head touches floor, full lock out at top.'
+            },
+            {
+                id: 'ex-11',
+                name: 'Front Lever Progression Hold',
+                level: 'Advanced',
+                category: 'Skill',
+                target: '4 Sets x 10 Secs',
+                desc: 'Horizontal body suspension — Lat activation, tight posterior chain.'
+            },
+            {
+                id: 'ex-12',
+                name: 'Tuck Planche Hold',
+                level: 'Advanced',
+                category: 'Skill',
+                target: '4 Sets x 12 Secs',
+                desc: 'Straight arm pushing leverage — Protracted shoulders, knees tucked to chest.'
+            }
+        ];
+
+        const DAYS_OF_WEEK = [
+            'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+        ];
+
+        let exercises = JSON.parse(localStorage.getItem('ks_exercises')) || DEFAULT_EXERCISES;
+        let weeklyPlan = JSON.parse(localStorage.getItem('ks_weekly_plan')) || {
+            0: [ // Monday initial default
+                { id: 'w-1', exerciseId: 'ex-1', name: 'Standard Push-Ups — Clean Form', target: '3 Sets x 15 Reps', category: 'Push', completed: false, repsLogged: 0 },
+                { id: 'w-2', exerciseId: 'ex-6', name: 'Strict Dead-Hang Pull-Ups', target: '4 Sets x 8 Reps', category: 'Pull', completed: false, repsLogged: 0 }
+            ],
+            1: [ // Tuesday
+                { id: 'w-3', exerciseId: 'ex-3', name: 'Air Squats — Full Depth', target: '4 Sets x 20 Reps', category: 'Legs', completed: false, repsLogged: 0 }
+            ],
+            2: [], // Wednesday
+            3: [ // Thursday
+                { id: 'w-4', exerciseId: 'ex-5', name: 'Parallel Bar Dips', target: '4 Sets x 10 Reps', category: 'Push', completed: false, repsLogged: 0 }
+            ],
+            4: [], // Friday
+            5: [ // Saturday
+                { id: 'w-5', exerciseId: 'ex-8', name: 'L-Sit Hold — Dip Bars or Floor', target: '4 Sets x 15 Secs', category: 'Skill', completed: false, repsLogged: 0 }
+            ],
+            6: []  // Sunday
+        };
+
+        let workoutHistory = JSON.parse(localStorage.getItem('ks_history')) || [
+            { date: 'Yesterday — Microcycle', name: 'Standard Push-Ups — Clean Form', reps: 45, category: 'Push' },
+            { date: 'Yesterday — Microcycle', name: 'Strict Dead-Hang Pull-Ups', reps: 32, category: 'Pull' }
+        ];
+
+        // Save functions
+        function saveData() {
+            localStorage.setItem('ks_exercises', JSON.stringify(exercises));
+            localStorage.setItem('ks_weekly_plan', JSON.stringify(weeklyPlan));
+            localStorage.setItem('ks_history', JSON.stringify(workoutHistory));
+            updateStats();
+        }
+
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+
+            if (tabId === 'library-tab') renderLibrary();
+            if (tabId === 'planner-tab') renderCalendar();
+            if (tabId === 'tracker-tab') renderTracker();
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            const todayIndex = (new Date().getDay() + 6) % 7; // Convert Sun=0 to Mon=0
+
+            DAYS_OF_WEEK.forEach((dayName, dayIndex) => {
+                const dayColumn = document.createElement('div');
+                dayColumn.className = `day-column ${dayIndex === todayIndex ? 'today' : ''}`;
+                
+                const dayWorkouts = weeklyPlan[dayIndex] || [];
+
+                let workoutsHtml = dayWorkouts.map((w) => `
+                    <div class="workout-card ${w.completed ? 'completed' : ''}">
+                        <div class="workout-title-row">
+                            <span class="workout-name">${w.name}</span>
+                            <span class="workout-tag">${w.category}</span>
+                        </div>
+                        <div class="workout-meta">
+                            <span>🎯 ${w.target}</span>
+                            ${w.completed ? `<span style="color:var(--accent-green); font-weight:700;">✓ ${w.repsLogged} reps</span>` : ''}
+                        </div>
+                        <div class="workout-actions">
+                            ${!w.completed ? `
+                                <button class="btn btn-xs btn-check" onclick="openLogRepsModal(${dayIndex}, '${w.id}', '${w.name.replace(/'/g, "\\'")}')">
+                                    ✓ Complete
+                                </button>
+                            ` : `
+                                <button class="btn btn-xs" onclick="toggleWorkoutComplete(${dayIndex}, '${w.id}')">
+                                    ↩ Undo
+                                </button>
+                            `}
+                            <button class="btn btn-xs btn-delete" onclick="removeWorkoutFromDay(${dayIndex}, '${w.id}')">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                dayColumn.innerHTML = `
+                    <div class="day-header">
+                        <div class="day-name">${dayName}</div>
+                        ${dayIndex === todayIndex ? '<span class="today-badge">Today</span>' : ''}
+                    </div>
+                    <div class="exercise-list">
+                        ${workoutsHtml.length > 0 ? workoutsHtml : '<p style="color:var(--text-dim); font-size:0.8rem; font-style:italic;">Rest Day — No exercises planned</p>'}
+                    </div>
+                    <button class="add-to-day-btn" onclick="quickAddModal(${dayIndex})">
+                        + Add Exercise
+                    </button>
+                `;
+
+                grid.appendChild(dayColumn);
+            });
+
+            updateStats();
+        }
+
+        function openLogRepsModal(dayIndex, workoutId, name) {
+            document.getElementById('log-day-index').value = dayIndex;
+            document.getElementById('log-workout-id').value = workoutId;
+            document.getElementById('log-exercise-name').innerText = `Exercise — ${name}`;
+            document.getElementById('log-reps-input').value = '';
+            document.getElementById('log-reps-modal').classList.add('active');
+        }
+
+        function handleLogRepsSubmit(e) {
+            e.preventDefault();
+            const dayIndex = document.getElementById('log-day-index').value;
+            const workoutId = document.getElementById('log-workout-id').value;
+            const reps = parseInt(document.getElementById('log-reps-input').value, 10) || 0;
+
+            const dayList = weeklyPlan[dayIndex];
+            const workout = dayList.find(w => w.id === workoutId);
+
+            if (workout) {
+                workout.completed = true;
+                workout.repsLogged = reps;
+
+                // Add to history
+                workoutHistory.unshift({
+                    date: `${DAYS_OF_WEEK[dayIndex]} — Today`,
+                    name: workout.name,
+                    reps: reps,
+                    category: workout.category
+                });
+
+                saveData();
+                renderCalendar();
+                closeModal('log-reps-modal');
+            }
+        }
+
+        function toggleWorkoutComplete(dayIndex, workoutId) {
+            const dayList = weeklyPlan[dayIndex];
+            const workout = dayList.find(w => w.id === workoutId);
+            if (workout) {
+                workout.completed = !workout.completed;
+                saveData();
+                renderCalendar();
+            }
+        }
+
+        function removeWorkoutFromDay(dayIndex, workoutId) {
+            weeklyPlan[dayIndex] = weeklyPlan[dayIndex].filter(w => w.id !== workoutId);
+            saveData();
+            renderCalendar();
+        }
+
+        function clearWeeklyPlan() {
+            if (confirm("Reset current week schedule?")) {
+                for (let i = 0; i < 7; i++) {
+                    weeklyPlan[i] = [];
+                }
+                saveData();
+                renderCalendar();
+            }
+        }
+
+        function renderLibrary() {
+            const catalogGrid = document.getElementById('catalog-grid');
+            const searchVal = document.getElementById('library-search').value.toLowerCase();
+            const levelFilter = document.getElementById('library-filter-level').value;
+            const catFilter = document.getElementById('library-filter-category').value;
+
+            const filtered = exercises.filter(ex => {
+                const matchesSearch = ex.name.toLowerCase().includes(searchVal) || ex.desc.toLowerCase().includes(searchVal);
+                const matchesLevel = levelFilter === 'all' || ex.level === levelFilter;
+                const matchesCat = catFilter === 'all' || ex.category === catFilter;
+                return matchesSearch && matchesLevel && matchesCat;
+            });
+
+            catalogGrid.innerHTML = filtered.map(ex => {
+                let badgeClass = 'badge-beginner';
+                if (ex.level === 'Intermediate') badgeClass = 'badge-intermediate';
+                if (ex.level === 'Advanced') badgeClass = 'badge-advanced';
+
+                return `
+                    <div class="library-card">
+                        <div>
+                            <span class="library-badge ${badgeClass}">${ex.level} — ${ex.category}</span>
+                            <div class="library-title">${ex.name}</div>
+                            <div class="library-desc" style="margin-top:0.5rem;">${ex.desc}</div>
+                        </div>
+                        <div>
+                            <div class="library-details">
+                                <span>🎯 Target — ${ex.target}</span>
+                            </div>
+                            <div class="day-select-group" style="margin-top: 1rem;">
+                                <select class="select-input" id="select-day-${ex.id}" style="font-size:0.8rem; padding:0.4rem;">
+                                    ${DAYS_OF_WEEK.map((d, i) => `<option value="${i}">${d}</option>`).join('')}
+                                </select>
+                                <button class="btn btn-xs btn-primary" onclick="addExerciseToPlanner('${ex.id}')">
+                                    + Add to Plan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addExerciseToPlanner(exerciseId) {
+            const selectEl = document.getElementById(`select-day-${exerciseId}`);
+            const dayIndex = parseInt(selectEl.value, 10);
+            const exercise = exercises.find(ex => ex.id === exerciseId);
+
+            if (exercise) {
+                if (!weeklyPlan[dayIndex]) weeklyPlan[dayIndex] = [];
+                
+                weeklyPlan[dayIndex].push({
+                    id: 'w-' + Date.now() + Math.random().toString(36).substr(2, 4),
+                    exerciseId: exercise.id,
+                    name: exercise.name,
+                    target: exercise.target,
+                    category: exercise.category,
+                    completed: false,
+                    repsLogged: 0
+                });
+
+                saveData();
+                alert(`Added "${exercise.name}" to ${DAYS_OF_WEEK[dayIndex]}!`);
+            }
+        }
+
+        function quickAddModal(dayIndex) {
+            switchTab('library-tab', document.querySelectorAll('.tab-btn')[1]);
+            const levelSelect = document.getElementById('library-filter-level');
+            levelSelect.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openCustomWorkoutModal() {
+            document.getElementById('custom-workout-modal').classList.add('active');
+        }
+
+        function handleCustomWorkoutSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('custom-name').value;
+            const level = document.getElementById('custom-level').value;
+            const category = document.getElementById('custom-category').value;
+            const target = document.getElementById('custom-target').value;
+            const desc = document.getElementById('custom-desc').value;
+
+            const newEx = {
+                id: 'ex-' + Date.now(),
+                name,
+                level,
+                category,
+                target,
+                desc: desc || 'Custom practitioner bodyweight exercise.'
+            };
+
+            exercises.unshift(newEx);
+            saveData();
+            closeModal('custom-workout-modal');
+            renderLibrary();
+            switchTab('library-tab', document.querySelectorAll('.tab-btn')[1]);
+        }
+
+        function renderTracker() {
+            const list = document.getElementById('history-list');
+            if (workoutHistory.length === 0) {
+                list.innerHTML = `<p style="color:var(--text-dim); font-style:italic;">No logged history yet — Complete workouts in the Weekly Planner!</p>`;
+                return;
+            }
+
+            list.innerHTML = workoutHistory.map(item => `
+                <div class="history-item">
+                    <div>
+                        <strong style="color: var(--text-main);">${item.name}</strong>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">${item.date} &bull; Category: ${item.category}</div>
+                    </div>
+                    <div style="font-size:1.1rem; font-weight:800; color:var(--gold-primary);">
+                        +${item.reps} Reps
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            let totalWeeklyExercises = 0;
+            let completedWeeklyExercises = 0;
+
+            Object.values(weeklyPlan).forEach(dayList => {
+                totalWeeklyExercises += dayList.length;
+                completedWeeklyExercises += dayList.filter(w => w.completed).length;
+            });
+
+            const totalReps = workoutHistory.reduce((sum, item) => sum + (item.reps || 0), 0);
+            const completionRate = totalWeeklyExercises > 0 ? Math.round((completedWeeklyExercises / totalWeeklyExercises) * 100) : 0;
+
+            document.getElementById('stat-completed-count').innerHTML = `${workoutHistory.length} <span class="stat-unit">sessions</span>`;
+            document.getElementById('stat-reps-count').innerHTML = `${totalReps.toLocaleString()} <span class="stat-unit">reps</span>`;
+            document.getElementById('stat-weekly-scheduled').innerHTML = `${totalWeeklyExercises} <span class="stat-unit">exercises</span>`;
+            document.getElementById('stat-completion-rate').innerText = `${completionRate}%`;
+        }
+
+        let timerInterval = null;
+        let timerSeconds = 60;
+        let timerRunning = false;
+
+        function openTimerModal() {
+            document.getElementById('timer-modal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function setTimer(sec) {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerSeconds = sec;
+            updateTimerDisplay();
+            document.getElementById('timer-toggle-btn').innerText = 'Start';
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer-display').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-toggle-btn');
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                btn.innerText = 'Start';
+            } else {
+                timerRunning = true;
+                btn.innerText = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        btn.innerText = 'Start';
+                        alert("⏱️ Rest Interval Finished — Begin your next set!");
+                    }
+                }, 1000);
+            }
+        }
+
+        window.onload = function() {
+            renderCalendar();
+            updateStats();
+        };
+    </script>
+</body>
+</html>
