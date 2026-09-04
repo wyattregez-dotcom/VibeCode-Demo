@@ -1,155 +1,1028 @@
 <!DOCTYPE html>
-<!--
-  ================================================================
-  READ THIS BEFORE YOU PASTE ANYTHING
-
-  When Gemini gives you a page, you do NOT paste it into a part of
-  this file. You replace the entire file.
-
-  Click into the editor, press Ctrl+A (Cmd+A on Mac), press Delete,
-  then paste. Everything here is meant to be thrown away.
-
-  Do that only AFTER your live link works. Get the link first.
-  ================================================================
--->
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My first site</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #0d1d30;
-    --card: #142a44;
-    --line: #27466a;
-    --aqua: #6de1d7;
-    --text: #ffffff;
-    --muted: #94a9bf;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--navy);
-    color: var(--text);
-    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    padding: 6vh 20px;
-  }
-  main { width: 100%; max-width: 640px; }
-  .badge {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--aqua);
-    margin-bottom: 18px;
-  }
-  h1 {
-    font-family: "Unbounded", "Manrope", sans-serif;
-    font-weight: 800;
-    font-size: clamp(38px, 9vw, 68px);
-    letter-spacing: -0.05em;
-    line-height: 1.02;
-    margin: 0 0 8px;
-  }
-  .name {
-    font-family: "Unbounded", "Manrope", sans-serif;
-    font-weight: 600;
-    font-size: clamp(18px, 4vw, 24px);
-    letter-spacing: -0.04em;
-    color: var(--aqua);
-    margin: 0 0 24px;
-  }
-  p.lead { font-size: 18px; color: var(--muted); margin: 0 0 34px; }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 26px 28px;
-    margin-bottom: 18px;
-  }
-  .card h2 {
-    font-family: "Unbounded", "Manrope", sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    color: var(--aqua);
-    margin: 0 0 16px;
-  }
-  ol { margin: 0; padding-left: 20px; }
-  li { margin-bottom: 12px; color: var(--muted); }
-  li:last-child { margin-bottom: 0; }
-  li b { color: var(--text); font-weight: 700; }
-  code {
-    font-family: ui-monospace, "SF Mono", Consolas, monospace;
-    font-size: 0.92em;
-    background: #0a1727;
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 1px 6px;
-    color: var(--aqua);
-  }
-  a { color: var(--aqua); }
-  footer {
-    margin-top: 30px;
-    font-size: 14px;
-    color: #6e839a;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALISTHENIX // Dynamic Bodyweight Workout Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #090d16;
+            --bg-secondary: #111827;
+            --bg-card: #1f293d;
+            --bg-card-hover: #28354d;
+            --accent-cyan: #06b6d4;
+            --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+            --accent-lime: #84cc16;
+            --accent-lime-glow: rgba(132, 204, 22, 0.2);
+            --accent-orange: #f97316;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --border-highlight: #475569;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition-fast: 0.18s ease;
+            --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Main Application Layout */
+        .app-container {
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1rem;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 40;
+            transition: transform var(--transition-normal);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--accent-cyan);
+            filter: drop-shadow(0 0 10px var(--accent-cyan-glow));
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-item button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: left;
+        }
+
+        .nav-item button:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active button {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05));
+            border-color: rgba(6, 182, 212, 0.4);
+            color: var(--accent-cyan);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item button svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .user-quick-profile {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-lime));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--bg-primary);
+            font-size: 1.1rem;
+            box-shadow: 0 0 12px var(--accent-cyan-glow);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .user-level {
+            font-size: 0.75rem;
+            color: var(--accent-lime);
+            font-weight: 600;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            width: calc(100% - 260px);
+        }
+
+        .view-panel {
+            display: none;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-title {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Grid Layout System */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Generic Card Styling */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: border-color var(--transition-fast), transform var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--border-highlight);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-secondary);
+            color: var(--accent-cyan);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-icon svg {
+            width: 26px;
+            height: 26px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 0.2rem;
+        }
+
+        /* Buttons & Inputs */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            box-shadow: 0 4px 14px var(--accent-cyan-glow);
+        }
+
+        .btn-primary:hover {
+            background: #22d3ee;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--accent-cyan-glow);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-highlight);
+            background-color: var(--bg-card-hover);
+        }
+
+        .btn-lime {
+            background-color: var(--accent-lime);
+            color: var(--bg-primary);
+            box-shadow: 0 4px 14px var(--accent-lime-glow);
+        }
+
+        .btn-lime:hover {
+            background-color: #a3e635;
+            transform: translateY(-1px);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .input-field {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+            transition: border-color var(--transition-fast);
+        }
+
+        .input-field:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--accent-cyan-glow);
+        }
+
+        /* Skill Progression Component */
+        .skill-tree-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-branch-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-nodes-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0.5rem;
+        }
+
+        .skill-node {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .skill-node::after {
+            content: '';
+            position: absolute;
+            right: -1.6rem;
+            top: 50%;
+            width: 1.2rem;
+            height: 2px;
+            background-color: var(--border-color);
+        }
+
+        .skill-nodes-row .skill-node:last-child::after {
+            display: none;
+        }
+
+        .skill-node.unlocked {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px var(--accent-cyan-glow);
+        }
+
+        .skill-node.mastered {
+            border-color: var(--accent-lime);
+            background: linear-gradient(180deg, var(--bg-card) 0%, rgba(132, 204, 22, 0.05) 100%);
+            box-shadow: 0 0 15px var(--accent-lime-glow);
+        }
+
+        .skill-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-node.mastered .skill-badge {
+            background-color: var(--accent-lime);
+            color: var(--bg-primary);
+            border-color: var(--accent-lime);
+        }
+
+        .skill-node.unlocked .skill-badge {
+            background-color: var(--accent-cyan);
+            color: var(--bg-primary);
+            border-color: var(--accent-cyan);
+        }
+
+        .skill-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .skill-req {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Exercise Library Cards */
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .exercise-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all var(--transition-fast);
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-highlight);
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .exercise-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-push { background-color: rgba(249, 115, 22, 0.15); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .tag-pull { background-color: rgba(6, 182, 212, 0.15); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .tag-legs { background-color: rgba(132, 204, 22, 0.15); color: #84cc16; border: 1px solid rgba(132, 204, 22, 0.3); }
+        .tag-core { background-color: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .tag-skill { background-color: rgba(236, 72, 153, 0.15); color: #ec4899; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+        .exercise-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Routine Builder Items */
+        .builder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            min-height: 120px;
+        }
+
+        .builder-item {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .builder-item-info {
+            flex: 1;
+        }
+
+        .builder-item-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .builder-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .num-input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: var(--bg-card);
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .num-input-group label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .num-input-group input {
+            width: 45px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+        }
+
+        /* Active Workout Overlay / Screen */
+        .workout-player-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(9, 13, 22, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .workout-player-modal.active {
+            display: flex;
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .player-content {
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .timer-circle-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin: 2rem 0;
+        }
+
+        .timer-circle-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .timer-circle-bg {
+            fill: none;
+            stroke: var(--bg-card);
+            stroke-width: 10;
+        }
+
+        .timer-circle-progress {
+            fill: none;
+            stroke: var(--accent-cyan);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-dasharray: 690;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke var(--transition-fast);
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-seconds {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        .current-exercise-banner {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-ex-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .current-ex-target {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-top: 0.4rem;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.25rem;
+            }
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .mobile-nav-toggle {
+                display: block !important;
+            }
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<main>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 6.29 3.43 4.86 2 3.43 3.43 2 4.86 3.43 6.29 2 7.71 3.43 9.14 2 10.57 3.43 12 7 20.57 8.43 17 12 20.57 10.57 22 9.14 20.57 7.71 22 6.29 20.57 4.86 22 3.43 20.57 2 19.14 3.43 17.71 2 16.29 3.43 14.86z"/>
+                </svg>
+                <span class="brand-title">CALISTHENIX</span>
+            </div>
 
-  <span class="badge">Cal Poly Vibe Coding &middot; Session 01</span>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-tab="dashboard">
+                    <button>
+                        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                        Dashboard
+                    </button>
+                </li>
+                <li class="nav-item" data-tab="planner">
+                    <button>
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        Routine Planner
+                    </button>
+                </li>
+                <li class="nav-item" data-tab="skills">
+                    <button>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        Skill Trees
+                    </button>
+                </li>
+                <li class="nav-item" data-tab="library">
+                    <button>
+                        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        Exercise Library
+                    </button>
+                </li>
+            </ul>
 
-  <h1>It&rsquo;s live.</h1>
+            <div class="user-quick-profile">
+                <div class="user-avatar">CX</div>
+                <div class="user-info">
+                    <span class="user-name">Athlete #01</span>
+                    <span class="user-level">Advanced Rank</span>
+                </div>
+            </div>
+        </aside>
 
-  <!-- Step 5: change the name below to yours, then commit. -->
-  <p class="name">Built by Wyatt Regez</p>
+        <!-- Main Content View Area -->
+        <main class="main-content">
+            <!-- Mobile Navigation Bar Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;" class="mobile-nav-toggle">
+                <button id="mobileMenuBtn" class="btn btn-secondary btn-sm">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    Menu
+                </button>
+                <span class="brand-title" style="font-size: 1.1rem;">CALISTHENIX</span>
+            </div>
 
-  <p class="lead">
-    This page is on the internet. Anyone you send this link to can open it,
-    on any device, right now. You made that happen in about five minutes.
-  </p>
+            <!-- TAB 1: DASHBOARD -->
+            <section id="tab-dashboard" class="view-panel active">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Command Center</h1>
+                        <p class="page-subtitle">Track your weekly performance, streaks, and skill progressions.</p>
+                    </div>
+                    <button id="quickStartBtn" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        Start Today's Workout
+                    </button>
+                </div>
 
-  <div class="card">
-    <h2>Three things, in this order</h2>
-    <ol>
-      <li><b>Put your name on it.</b> Edit <code>index.html</code>, change
-        YOUR NAME HERE above, commit, refresh this page.</li>
-      <li><b>Submit this link.</b> Go to
-        <a href="https://www.calpolyvibecoding.com/">calpolyvibecoding.com</a>,
-        make an account, and paste this URL in. That is how you get counted,
-        and how Claude seats get assigned.</li>
-      <li><b>Then build.</b> Open Gemini, get a page, and replace this entire
-        file with it.</li>
-    </ol>
-  </div>
+                <!-- Stats Overview -->
+                <div class="grid-3" style="margin-bottom: 2rem;">
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="color: var(--accent-cyan);">
+                            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="dashStreakVal">5 Days</div>
+                            <div class="stat-label">Current Active Streak</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="color: var(--accent-lime);">
+                            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="dashCompletedVal">18</div>
+                            <div class="stat-label">Workouts Logged</div>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="color: var(--accent-orange);">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="dashVolumeVal">1,240</div>
+                            <div class="stat-label">Total Reps Completed</div>
+                        </div>
+                    </div>
+                </div>
 
-  <div class="card">
-    <h2>How to replace this page</h2>
-    <ol>
-      <li>Copy what Gemini gives you with the <b>copy button</b> on the code
-        block. Do not click and drag.</li>
-      <li>Open <code>index.html</code> here and click the pencil icon.</li>
-      <li><b>Ctrl+A</b> (<b>Cmd+A</b> on Mac), then <b>Delete</b>. All of it.
-        Yes, really.</li>
-      <li>Paste, commit, refresh.</li>
-    </ol>
-  </div>
+                <!-- Active Routines & Today's Schedule -->
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title">
+                            Today's Schedule
+                            <span class="tag tag-pull">Pull Focus</span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.25rem;" id="dashTodayRoutineDesc">
+                            Focusing on Upper Body Pulling Power, Muscle-up Transits, and L-Sit Core Hold.
+                        </p>
+                        <div id="dashTodayExercisesList" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                        <button class="btn btn-primary style-full" style="width:100%" id="dashLaunchBtn">Launch Session</button>
+                    </div>
 
-  <footer>
-    Nothing on this page is precious. It exists so the link has something to
-    show before you have something of your own.
-  </footer>
+                    <div class="card">
+                        <div class="card-title">Mastered Skills Progress</div>
+                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
+                                    <span>Handstand Progression</span>
+                                    <span style="color: var(--accent-cyan);">Freestanding (45s)</span>
+                                </div>
+                                <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden;">
+                                    <div style="background: var(--accent-cyan); width: 80%; height: 100%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
+                                    <span>Muscle-Up Progression</span>
+                                    <span style="color: var(--accent-lime);">Chest-to-Bar Pullup</span>
+                                </div>
+                                <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden;">
+                                    <div style="background: var(--accent-lime); width: 65%; height: 100%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
+                                    <span>Front Lever Progression</span>
+                                    <span style="color: var(--accent-orange);">Advanced Tuck</span>
+                                </div>
+                                <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden;">
+                                    <div style="background: var(--accent-orange); width: 45%; height: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-</main>
-</body>
-</html>
+            <!-- TAB 2: ROUTINE PLANNER -->
+            <section id="tab-planner" class="view-panel">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Routine Architect</h1>
+                        <p class="page-subtitle">Design custom bodyweight protocols, edit sets, reps, and target rest intervals.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button id="loadPresetBtn" class="btn btn-secondary">Load Preset Template</button>
+                        <button id="saveRoutineBtn" class="btn btn-lime">Save Routine</button>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <!-- Builder Canvas (2 cols) -->
+                    <div style="grid-column: span 2;">
+                        <div class="card">
+                            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                                <input type="text" id="routineTitleInput" class="input-field" value="Upper Body & Core Hypertrophy" placeholder="Routine Title...">
+                                <select id="routineCategorySelect" class="input-field" style="width: 180px;">
+                                    <option value="Push">Push Focus</option>
+                                    <option value="Pull">Pull Focus</option>
+                                    <option value="Legs">Legs Focus</option>
+                                    <option value="Full Body">Full Body</option>
+                                    <option value="Skill">Skill & Core</option>
+                                </select>
+                            </div>
+
+                            <h3 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Selected Exercises Sequence</h3>
+
+                            <div class="builder-list" id="builderExerciseList">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Add Exercises Selector (1 col) -->
+                    <div>
+                        <div class="card">
+                            <div class="card-title">Add To Routine</div>
+                            <input type="text" id="builderSearchInput" class="input-field" placeholder="Search movement..." style="margin-bottom: 1rem;">
+                            
+                            <div id="quickAddList" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 480px; overflow-y: auto;">
+                                <!-- Quick exercise items populated via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: SKILL TREES -->
+            <section id="tab-skills" class="view-panel">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Skill Progression Matrix</h1>
+                        <p class="page-subtitle">Unlock advanced calisthenics elements through systematic progression steps.</p>
+                    </div>
+                </div>
+
+                <div class="skill-tree-container" id="skillTreeContainer">
+                    <!-- Dynamic Skill Trees populated via JS -->
+                </div>
+            </section>
+
+            <!-- TAB 4: EXERCISE LIBRARY -->
+            <section id="tab-library" class="view-panel">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Exercise Compendium</h1>
+                        <p class="page-subtitle">Master execution details, muscle targets, and difficulty ratings.</p>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <input type="text" id="librarySearchInput" class="input-field" placeholder="Search exercises by name or muscle group..." style="max-width: 360px;">
+                    <div style="display: flex; gap: 0.5rem;" id="libraryCategoryFilters">
+                        <button class="btn btn-secondary btn-sm active-filter" data-cat="all">All</button>
+                        <button class="btn btn-secondary btn-sm" data-cat="Push">Push</button>
+                        <button class="btn btn-secondary btn-sm" data-cat="Pull">Pull</button>
+                        <button class="btn btn-secondary btn-sm" data-cat="Legs">Legs</button>
+                        <button class="btn btn-secondary btn-sm" data-cat="Core">Core</button>
+                        <button class="btn btn-secondary btn-sm" data-cat="Skill">Skills</button>
+                    </div>
+                </div>
+
+                <div class="exercise-grid" id="libraryGrid">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ACTIVE WORKOUT PLAYER MODAL -->
+    <div class="workout-player-modal" id="workoutPlayerModal">
+        <div class="player-header">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span class="tag tag-pull" id="playerCategoryTag">PULL ROUTINE</span>
+                <h2 id="playerRoutineTitle" style="font-weight: 800; font-size: 1.25rem;">Upper Body & Core</h2>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="exitPlayerBtn">Exit Session</button>
+        </div>
+
+        <div class="player-content">
+            <div class="current-exercise-banner">
+                <span style="font-size:
